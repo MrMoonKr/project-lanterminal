@@ -1,5 +1,6 @@
 package bit.datacron.linkedIn.tms.gui;
 
+import java.awt.Font;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -8,6 +9,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.TerminalPosition;
+import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.TextColor.ANSI;
@@ -15,6 +17,7 @@ import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
+import com.googlecode.lanterna.terminal.swing.AWTTerminalFontConfiguration;
 
 import bit.datacron.linkedIn.tms.system.TemperatureMonitoringSystem;
 
@@ -41,7 +44,15 @@ public class LanterminalEngine {
 	}
 	
 	private void initialize() throws IOException {
-		screen = new DefaultTerminalFactory().createScreen();
+
+        Font font = new Font( "Monospaced", Font.PLAIN, 20 );
+        AWTTerminalFontConfiguration fontConfiguration = AWTTerminalFontConfiguration.newInstance( font );
+
+		screen = new DefaultTerminalFactory()
+            .setInitialTerminalSize( new TerminalSize(120, 24) )
+            .setForceAWTOverSwing(true)
+            .setTerminalEmulatorFontConfiguration(fontConfiguration)
+            .createScreen();
 		foreC = TextColor.ANSI.RED;
 		backC = TextColor.ANSI.BLACK;
 	}
